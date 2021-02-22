@@ -30,13 +30,29 @@ if __name__ == '__main__':
 	process = Qt()
 	fileUrl = process.mv_Chooser()
 	print(fileUrl)
+	if(fileUrl == ""):
+		print("Without input file!!")
+		sys.exit(0)
 
 	#建立資料夾用以儲存Data
-	filename = Path(fileUrl).stem
-	file = "data_"+filename
+	video_filename = Path(fileUrl).stem
+
+	fp = open("data.txt", "r")
+	found = False
+	for line in fp:
+		if video_filename in line:
+			found = True
+			break
+
+	fp.close()
+	if(found):
+		print("Already split!")
+		sys.exit(0)
+
+	file = "dataset"
 	if not os.path.exists(file):
 		os.makedirs(file)
-		os.makedirs(file+'/train')
+		os.makedirs(file+'/training')
 		os.makedirs(file+'/validation')
 
 	#開啟影片
@@ -67,11 +83,16 @@ if __name__ == '__main__':
 		cropped = cv2.resize(cropped, (112,112))
 		if(image_bbox[2] > 50 and image_bbox[3] > 50):
 
-			if(i%50 == 0):
-				savefile = file + "/validation/pic_"+filename +"_" +str(i) + ".jpg"
+			if(i%100 == 0):
+				path = './'+file+'/validation/'
+				validation_num = len([name for name in os.listdir(path) if os.path.isfile(os.path.join(path, name))])
+				savefile = file + "/validation/pic_"+str(validation_num+1) + ".jpg"
 				cv2.imwrite(savefile, cropped)
-			elif(i%5 == 0):
-				savefile = file + "/train/pic_"+filename +"_" +str(i) + ".jpg"
+
+			elif(i%10 == 0):
+				path = './'+file+'/training/'
+				training_num = len([name for name in os.listdir(path) if os.path.isfile(os.path.join(path, name))])
+				savefile = file + "/training/pic_"+str(training_num+1) + ".jpg"
 				cv2.imwrite(savefile, cropped)
 
 
@@ -81,5 +102,8 @@ if __name__ == '__main__':
 			cap.release()
 			cv2.destroyAllWindows()
 			break
+	fp = open("data.txt", "a")
+	fp.write(video_filename+"\n")
+	fp.close()
 		
 		
