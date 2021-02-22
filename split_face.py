@@ -26,6 +26,11 @@ face_y2 = 0
 if __name__ == '__main__':
 
 	#讀取影片路徑
+	fp = open("data.txt", "r")
+	lines = fp.read()
+	print(lines)
+	fp.close()
+
 	qt_env = QApplication(sys.argv)
 	process = Qt()
 	fileUrl = process.mv_Chooser()
@@ -39,6 +44,7 @@ if __name__ == '__main__':
 
 	fp = open("data.txt", "r")
 	found = False
+	print(fp)
 	for line in fp:
 		if video_filename in line:
 			found = True
