@@ -1,9 +1,0 @@
-normal_1
-normal_2
-normal_3
-normal_4
-normal_5
-normal_6
-normal_7
-normal_8
-normal_9

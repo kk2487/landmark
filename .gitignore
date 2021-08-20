@@ -1,6 +1,7 @@
 *.npy
 *.swp
 *.mp4
+*.MP4
 *.dat
 *.avi
 *.jpg
@@ -8,9 +9,3 @@
 *.pt
 *.pth
 dataset/
-models/
-depth/
-ir/
-rgb/
-npy_arrays/
-__pycache__/
